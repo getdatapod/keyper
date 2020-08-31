@@ -1,0 +1,43 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title Keyper
+  link(rel='stylesheet' href='style.css')
+  script(src="/script.js" defer)
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js" defer)
+  .container
+    header.header
+      img(src=manifest.icon alt='Icon')
+      h1  Authorize #{manifest.name} to c​onnect to your GitHub account 
+        br
+        span (via Keyper) 
+      span.domain (#{domain})
+    main.consent-block
+      section.consent-block__accounts
+        label
+          | Select #{provider.name} account
+          select(id="keys")
+            each key in keys
+              option(value=key._id) #{key.profile.userName}
+      section.consent-block__permissions
+        p(style='font-weight: 600;')
+          | Please Note
+        span.separator
+        ul
+          li - #{manifest.name} will never see your GitHub key
+          li - You can review all data requests of #{manifest.name} in the Keyper app
+          li - Disconnect #{manifest.name} from your GitHub data anytime from within the Keyper app
+        span.separator
+      section.cta
+        button.btn-success(id="sure") Connect
+        button.btn-secondary(id="cancel") Cancel
+      p.callback Authorizing this connection will redirect you to
+        br
+        span.callback__uri #{manifest.callback}
+    script.
+      const appName = "#{manifest.name}";
+      const appIcon = "#{manifest.icon}"
+      const callbackUri = "#{manifest.callback}";
+      const domain = "#{domain}";
+      const providerId = "#{provider._id}";
